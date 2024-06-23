@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarize Text</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Summarize Text</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Upload File</label>
+                <input type="file" class="form-control-file" id="file" name="file">
+            </div>
+            <div class="form-group">
+                <label for="sample">Or select a sample</label>
+                <select class="form-control" id="sample" name="sample">
+                    {% for i in range(0, sample_data.num_rows) %}
+                    <option value="{{ i }}">Sample {{ i+1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="style">Summary Style</label>
+                <select class="form-control" id="style" name="style">
+                    <option value="brief">Brief</option>
+                    <option value="detailed">Detailed</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Summarize</button>
+        </form>
+    </div>
+</body>
+</html>
+
