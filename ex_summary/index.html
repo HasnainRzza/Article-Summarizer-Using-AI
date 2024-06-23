@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>PubMed Article Summarizer</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 800px;
+      margin-top: 50px;
+    }
+    .mt-5 {
+      margin-top: 3rem !important;
+    }
+    .lead {
+      font-size: 1.25rem;
+      font-weight: 300;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">PubMed Summarizer</a>
+  </nav>
+  <div class="container">
+    <h1 class="mt-5 text-center">PubMed Article Summarizer</h1>
+    <p class="lead text-center">Upload a PubMed article or select a sample article from the dataset to generate a summary.</p>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Upload a File</h5>
+        <form method="post" action="/summarize" enctype="multipart/form-data">
+          <div class="form-group">
+            <input type="file" name="file" class="form-control-file">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Summarize Uploaded File</button>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Select a Sample Article</h5>
+        <form method="post" action="/summarize">
+          <div class="form-group">
+            <label for="sample">Sample Articles:</label>
+            <select name="sample" id="sample" class="form-control">
+              {% for i in range(sample_data.num_rows) %}
+              <option value="{{ i }}">Sample Article {{ i+1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Summarize Selected Sample</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
