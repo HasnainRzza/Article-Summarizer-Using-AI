@@ -8,6 +8,7 @@ An AI-based web application that provides concise summaries of articles using ad
 - [Data Exploration](#data-exploration)
 - [Model Selection](#model-selection)
 - [Model Fine-Tuning](#model-fine-tuning)
+- [Extractive Summarization](#extractive-summarization)
 - [Web Application Development](#web-application-development)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -117,6 +118,59 @@ The dataset used for training and evaluation is the [PubMed Summarization datase
     # Example pseudo-code for fine-tuning
     model.train(dataset=pubmed_data, epochs=10, learning_rate=0.001)
     ```
+## Extractive Summarization
+
+### Approach
+
+For extractive summarization, the application uses traditional NLP techniques to identify key sentences from the article without relying on a generative model.
+
+1. **Extractive Summary Script**:
+
+    Rename the provided `extractive_summary.py` to `app.py` and move it to the project root:
+
+    ```bash
+    mv /mnt/data/extractive_summary.py app.py
+    ```
+
+2. **Core Logic**:
+
+    - The extractive summarization script uses statistical and heuristic methods to identify the most important sentences in the text.
+
+    ```python
+    # Example of extractive summarization
+    def extractive_summary(text):
+        # Tokenize the text and rank sentences
+        sentences = sent_tokenize(text)
+        # Rank and select key sentences (pseudo-code)
+        summary = ' '.join(sentences[:3])  # Example: Select first 3 sentences
+        return summary
+    ```
+
+3. **Integration**:
+
+    - Integrate the extractive summarization logic with the Flask application to allow users to choose between generative and extractive summaries.
+
+    ```python
+    @app.route('/summarize', methods=['POST'])
+    def summarize():
+        if 'file' in request.files and request.files['file'].filename != '':
+            file = request.files['file']
+            article_text = file.read().decode("utf-8")
+        else:
+            sample_index = int(request.form['sample'])
+            article_text = pubmed_data[sample_index]['article']
+
+        style = request.form.get('style', 'brief')
+        summary_method = request.form.get('method', 'generative')
+        
+        if summary_method == 'generative':
+            summary_text = preprocess_and_summarize(article_text, style)
+        else:
+            summary_text = extractive_summary(article_text)
+
+        return render_template('result.html', original=article_text, summary=summary_text)
+    ```
+
 
 ### Evaluation
 
